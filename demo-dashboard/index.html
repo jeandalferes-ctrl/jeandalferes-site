@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operations — Demo</title>
+    <style>
+        body {
+            background-color: #14110F;
+            color: #F5F0EB;
+            font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif;
+            margin: 0;
+            padding: 20px;
+        }
+        a {
+            color: #F5F0EB;
+            text-decoration: none;
+        }
+        header {
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+        .subtitle {
+            color: #C9C2B8;
+            font-size: 1.2em;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            border: 1px solid #55504A;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .card h2 {
+            margin-top: 0;
+            font-size: 1.3em;
+        }
+        .status-circle {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-online { background-color: #4CAF50; }
+        .status-offline { background-color: #757575; }
+        .status-busy { background-color: #FF9800; }
+        .status-error { background-color: #F44336; }
+        .status-working { background-color: #FF9800; }
+        .status-idle { background-color: #757575; }
+        .count-badge {
+            font-family: Menlo, Consolas, monospace;
+            font-size: 1.5em;
+            margin: 5px 0;
+        }
+        .blocked-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #F44336;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+        .token-value {
+            font-family: Menlo, Consolas, monospace;
+            font-size: 2em;
+            margin: 10px 0;
+        }
+        .token-context {
+            color: #C9C2B8;
+            font-size: 0.9em;
+        }
+        .project-bar-container {
+            width: 100%;
+            background-color: #55504A;
+            border-radius: 5px;
+            margin: 8px 0;
+            overflow: hidden;
+        }
+        .project-bar {
+            height: 20px;
+            background-color: #4CAF50;
+            text-align: right;
+            padding-right: 5px;
+            box-sizing: border-box;
+            font-size: 0.8em;
+            color: #14110F;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+            color: #C9C2B8;
+        }
+        .error {
+            color: #F44336;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav><a href="../">&larr; Home</a></nav>
+        <h1>Operations — Demo</h1>
+        <div class="subtitle">Sample data for illustration.</div>
+    </header>
+
+    <main class="grid-container">
+        <div class="card">
+            <h2>Agent Status</h2>
+            <div id="agent-status" class="loading">Loading...</div>
+        </div>
+
+        <div class="card">
+            <h2>Active Tasks</h2>
+            <div id="active-tasks" class="loading">Loading...</div>
+        </div>
+
+        <div class="card">
+            <h2>Token Economy</h2>
+            <div id="token-economy" class="loading">Loading...</div>
+        </div>
+
+        <div class="card">
+            <h2>Recently Completed</h2>
+            <div id="recently-completed" class="loading">Loading...</div>
+        </div>
+
+        <div class="card">
+            <h2>Calendar & Todos</h2>
+            <div id="calendar-todos" class="loading">Loading...</div>
+        </div>
+
+        <div class="card">
+            <h2>Project Pulse</h2>
+            <div id="project-pulse" class="loading">Loading...</div>
+        </div>
+    </main>
+
+    <script>
+        // Fetch data from mock file
+        fetch('mock-data.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                renderAgentStatus(data.agents);
+                renderActiveTasks(data.active_tasks);
+                renderTokenEconomy(data.token_economy);
+                renderRecentlyCompleted(data.recently_completed);
+                renderCalendarTodos(data.calendar_todos);
+                renderProjectPulse(data.project_pulse);
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+                document.querySelectorAll('.loading').forEach(el => {
+                    el.classList.add('error');
+                    el.textContent = 'Failed to load data';
+                });
+            });
+
+        function renderAgentStatus(agents) {
+            const container = document.getElementById('agent-status');
+            container.classList.remove('loading');
+            container.innerHTML = '';
+
+            agents.forEach(agent => {
+                const statusClass = `status-${agent.state.toLowerCase()}`;
+                const agentEl = document.createElement('div');
+                agentEl.innerHTML = `
+                    <span class="status-circle ${statusClass}"></span>
+                    ${agent.name} (${agent.state})
+                `;
+                container.appendChild(agentEl);
+            });
+        }
+
+        function renderActiveTasks(tasks) {
+            const container = document.getElementById('active-tasks');
+            container.classList.remove('loading');
+
+            const total = tasks.in_progress.length + tasks.needs_input.length + tasks.blocked.length;
+            const hasBlocked = tasks.blocked.length > 0;
+            const blockedIndicator = hasBlocked ? '<span class="blocked-dot" title="Blocked tasks"></span>' : '';
+
+            container.innerHTML = `
+                <div class="count-badge">${total} active</div>
+                ${blockedIndicator}
+            `;
+        }
+
+        function renderTokenEconomy(economy) {
+            const container = document.getElementById('token-economy');
+            container.classList.remove('loading');
+
+            container.innerHTML = `
+                <div class="token-value">$${economy.month_spend.toFixed(2)}</div>
+                <div class="token-context">of $${economy.budget} budget<br>${economy.days_of_runway} days of runway</div>
+            `;
+        }
+
+        function renderRecentlyCompleted(completed) {
+            const container = document.getElementById('recently-completed');
+            container.classList.remove('loading');
+
+            let content = `<div class="count-badge">${completed.length} completed</div>`;
+            if (completed.length > 0) {
+                content += `<div>${completed[0].title}</div>`;
+            }
+
+            container.innerHTML = content;
+        }
+
+        function renderCalendarTodos(todos) {
+            const container = document.getElementById('calendar-todos');
+            container.classList.remove('loading');
+
+            let content = `
+                <div class="count-badge">${todos.today_count} today, ${todos.due_count} due</div>
+            `;
+            if (todos.urgent_item) {
+                content += `<div>${todos.urgent_item}</div>`;
+            }
+
+            container.innerHTML = content;
+        }
+
+        function renderProjectPulse(projects) {
+            const container = document.getElementById('project-pulse');
+            container.classList.remove('loading');
+            container.innerHTML = '';
+
+            projects.forEach(project => {
+                const barEl = document.createElement('div');
+                barEl.className = 'project-bar-container';
+                barEl.innerHTML = `
+                    <div class="project-bar" style="width: ${project.percent_complete}%;">
+                        ${project.percent_complete}%
+                    </div>
+                    <div>${project.name}</div>
+                `;
+                container.appendChild(barEl);
+            });
+        }
+    </script>
+</body>
+</html>

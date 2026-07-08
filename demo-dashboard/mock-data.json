@@ -1,0 +1,50 @@
+{
+  "agents": [
+    {"name": "Vesper", "role": "orchestrator", "state": "working", "project_color": "#9C7A4A", "task_count": 3, "current_task": "Reviewing content drafts", "time_in_flight": "4m", "cost_current_task": "$0.02", "last_5": ["Deployed landing page", "Wrote blocker report", "Ran aesthetic gate", "Fixed DNS record", "Synced routing log"]},
+    {"name": "Oracle", "role": "research", "state": "idle", "project_color": "#6B8CAE", "task_count": 1, "current_task": null, "time_in_flight": null, "cost_current_task": null, "last_5": ["Researched dashboard patterns", "Summarized competitor sites"]},
+    {"name": "Quill", "role": "writing", "state": "working", "project_color": "#7A9C6B", "task_count": 2, "current_task": "Drafting course page copy", "time_in_flight": "2m", "cost_current_task": "$0.01", "last_5": ["Drafted About page", "Drafted Kit page", "Reviewed voice guidelines"]},
+    {"name": "Forge", "role": "coding", "state": "idle", "project_color": "#AE6B6B", "task_count": 0, "current_task": null, "time_in_flight": null, "cost_current_task": null, "last_5": ["Built dashboard shell", "Built favicon integration"]}
+  ],
+  "active_tasks": {
+    "in_progress": [
+      {"title": "Dashboard Phase 1 build", "project": "Sovereign Stack", "owner": "Forge"},
+      {"title": "Course content review", "project": "Agent Sovereignty", "owner": "Quill"}
+    ],
+    "needs_input": [
+      {"title": "Pricing decision for Kit tiers", "project": "Sovereign Stack", "blocked_since": "2 days"}
+    ],
+    "blocked": [
+      {"title": "Payment integration", "project": "jeandalferes.com", "reason": "Awaiting Stripe account setup"}
+    ]
+  },
+  "token_economy": {
+    "month_spend": 4.85,
+    "budget": 50,
+    "burn_7day": [0.20, 0.15, 0.45, 0.30, 0.60, 0.85, 1.10],
+    "days_of_runway": 62,
+    "by_model": {"qwen3.6-plus": 2.10, "qwen3-coder": 1.85, "claude-sonnet-5": 0.90},
+    "by_agent": {"Oracle": 1.20, "Quill": 1.55, "Forge": 2.10},
+    "by_project": {"jeandalferes.com": 3.10, "Agent Sovereignty": 1.75}
+  },
+  "recently_completed": [
+    {"title": "Landing page deployed", "project": "jeandalferes.com", "date": "2026-07-08", "color": "#9C7A4A"},
+    {"title": "Favicon + OG images shipped", "project": "jeandalferes.com", "date": "2026-07-08", "color": "#9C7A4A"},
+    {"title": "Course page copy approved", "project": "Agent Sovereignty", "date": "2026-07-07", "color": "#7A9C6B"},
+    {"title": "Three-agent routing stood up", "project": "Infrastructure", "date": "2026-07-07", "color": "#6B8CAE"}
+  ],
+  "calendar_todos": {
+    "today_count": 3,
+    "due_count": 1,
+    "urgent_item": "Confirm Stripe pricing before Kit launch",
+    "todos": [
+      {"title": "Review Cohort 1 outline", "project": "Agent Sovereignty", "due": "today"},
+      {"title": "Finalize Kit tier pricing", "project": "Sovereign Stack", "due": "tomorrow"},
+      {"title": "Approve demo dashboard copy", "project": "jeandalferes.com", "due": "today"}
+    ]
+  },
+  "project_pulse": [
+    {"name": "jeandalferes.com", "percent_complete": 70, "open_tasks": 4, "color": "#9C7A4A", "velocity": "steady", "blockers": [{"item": "Payment setup", "owner": "Commander"}]},
+    {"name": "Agent Sovereignty", "percent_complete": 45, "open_tasks": 6, "color": "#7A9C6B", "velocity": "accelerating", "blockers": []},
+    {"name": "Sovereign Stack", "percent_complete": 30, "open_tasks": 8, "color": "#6B8CAE", "velocity": "steady", "blockers": [{"item": "Pricing decision", "owner": "Commander"}]}
+  ]
+}
