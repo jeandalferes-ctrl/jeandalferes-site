@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Sovereign Stack — Jean Dalferes Robicheaux</title>
+<meta name="description" content="Templates, configuration, and an operating charter. Install, configure, run.">
+<style>
+  :root { --ground: #14110F; --parchment: #F5F0EB; --accent: #9C7A4A; --body-text: #C9C2B8; --footer-text: #55504A; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: var(--ground); color: var(--parchment); font-family: 'Georgia', 'Iowan Old Style', 'Palatino Linotype', serif; }
+  body { display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 6vh 8vw 10vh; }
+  nav { align-self: flex-start; margin-bottom: 4vh; }
+  nav a { color: var(--parchment); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid transparent; padding-bottom: 0.25rem; transition: border-color .25s ease, color .25s ease; }
+  nav a:hover { color: var(--accent); border-color: var(--accent); }
+  main { max-width: 34rem; text-align: left; }
+  .headline { font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 400; letter-spacing: 0.02em; margin-bottom: 1rem; }
+  .subhead { font-size: clamp(1rem, 2.2vw, 1.2rem); font-style: italic; color: var(--accent); margin-bottom: 2rem; line-height: 1.5; }
+  .body p { font-size: clamp(0.9rem, 1.6vw, 1.02rem); line-height: 1.75; color: var(--body-text); margin-bottom: 1.2rem; }
+  .cta { display: inline-block; margin-top: 1.5rem; color: var(--parchment); text-decoration: none; font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase; border: 1px solid var(--accent); padding: 0.8rem 1.6rem; transition: background .25s ease, color .25s ease; }
+  .cta:hover { background: var(--accent); color: var(--ground); }
+  footer { position: absolute; bottom: 2.5vh; font-size: 0.7rem; letter-spacing: 0.05em; color: var(--footer-text); }
+</style>
+</head>
+<body>
+  <nav><a href="/">&larr; Home</a></nav>
+  <main>
+    <div class="headline">The Sovereign Stack</div>
+    <div class="subhead">Templates, configuration, and an operating charter. Install, configure, run.</div>
+    <div class="body">
+      <p>This is the working starting point. The kit gives you everything you need to spin up a functional agent system in an afternoon.</p>
+      <p>It comes in three tiers:</p>
+      <p><strong>Base</strong> &mdash; Templates for the core files: SOUL.md, the index, the log, the vault scaffold. Paste them into your workspace and start editing. You get the structure and the instructions to make it yours.</p>
+      <p><strong>Professional</strong> &mdash; Adds the Build Charter and Companion Prompt. The Charter defines what the agent is allowed to do, what it must ask about, and what it must report. The Companion Prompt shapes how it thinks and responds. Plus the dashboard that tracks what&rsquo;s running.</p>
+      <p><strong>Applied</strong> &mdash; Industry-specific configurations layered on top. Different data paths, different workflows, different defaults for different work.</p>
+      <p>This site was built overnight by the agent architecture it sells. That is not a metaphor.</p>
+    </div>
+    <a class="cta" href="#">Join the interest list</a>
+  </main>
+  <footer>&copy; 2026 Jean Dalferes Robicheaux</footer>
+</body>
+</html>
