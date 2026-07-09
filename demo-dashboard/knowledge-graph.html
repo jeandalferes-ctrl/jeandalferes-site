@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knowledge Base + Graph — Demo</title>
+<link rel="icon" href="/favicon.png" type="image/png">
+<meta name="description" content="Sample knowledge base search and graph view — illustrative data only.">
+<style>
+  :root { --ground: #14110F; --parchment: #F5F0EB; --accent: #9C7A4A; --body-text: #C9C2B8; --footer-text: #55504A; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: var(--ground); color: var(--parchment); font-family: 'Georgia', 'Iowan Old Style', 'Palatino Linotype', serif; }
+  body { padding: 6vh 6vw 8vh; }
+  nav { margin-bottom: 2vh; }
+  nav a { color: var(--parchment); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  nav a:hover { color: var(--accent); }
+  .page-title { font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: 0.3rem; }
+  .page-subtitle { font-size: 0.85rem; color: var(--body-text); font-style: italic; margin-bottom: 4vh; }
+  .tabs { display: flex; gap: 1.5rem; margin-bottom: 2rem; border-bottom: 1px solid rgba(156,122,74,0.3); }
+  .tab { padding-bottom: 0.6rem; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--body-text); cursor: pointer; border-bottom: 2px solid transparent; }
+  .tab.active { color: var(--accent); border-color: var(--accent); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  #search-box { width: 100%; max-width: 24rem; background: var(--ground); border: 1px solid var(--accent); color: var(--parchment); padding: 0.6rem 0.9rem; font-family: inherit; font-size: 0.9rem; border-radius: 3px; margin-bottom: 1.5rem; }
+  #search-box::placeholder { color: var(--footer-text); }
+  .result-item { padding: 0.8rem 0; border-bottom: 1px solid rgba(156,122,74,0.15); }
+  .result-title { color: var(--accent); font-size: 0.95rem; }
+  .result-category { font-size: 0.7rem; color: var(--footer-text); text-transform: uppercase; letter-spacing: 0.05em; margin-left: 0.5rem; }
+  canvas { border: 1px solid rgba(156,122,74,0.25); border-radius: 6px; background: rgba(245,240,235,0.02); }
+  .legend { display: flex; gap: 1.2rem; margin-top: 1rem; font-size: 0.75rem; color: var(--body-text); }
+  .legend-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 0.3rem; }
+  footer { margin-top: 5vh; font-size: 0.7rem; color: var(--footer-text); text-align: center; }
+</style>
+</head>
+<body>
+  <nav><a href="/">&larr; Home</a></nav>
+  <div class="page-title">Knowledge Base + Graph</div>
+  <div class="page-subtitle">Sample vault structure for illustration — fabricated nodes, not real data.</div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="kb">Knowledge Base</div>
+    <div class="tab" data-tab="graph">Graph View</div>
+  </div>
+
+  <div class="tab-content active" id="tab-kb">
+    <input type="text" id="search-box" placeholder="Search sample pages...">
+    <div id="results"></div>
+  </div>
+
+  <div class="tab-content" id="tab-graph">
+    <canvas id="graph-canvas" width="800" height="500"></canvas>
+    <div class="legend">
+      <span><span class="legend-dot" style="background:#9C7A4A"></span>Projects</span>
+      <span><span class="legend-dot" style="background:#6B8CAE"></span>Concepts</span>
+      <span><span class="legend-dot" style="background:#7A9C6B"></span>Agents</span>
+    </div>
+  </div>
+
+  <footer>&copy; 2026 Jean Dalferes Robicheaux</footer>
+
+<script>
+const catColors = { projects: '#9C7A4A', concepts: '#6B8CAE', agents: '#7A9C6B' };
+
+// Tab switching
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+// Knowledge Base search
+let nodes = [];
+fetch('mock-graph.json').then(r => r.json()).then(data => {
+  nodes = data;
+  renderResults(nodes);
+});
+
+function renderResults(list) {
+  const container = document.getElementById('results');
+  container.innerHTML = list.map(n => `
+    <div class="result-item">
+      <span class="result-title">${n.title}</span>
+      <span class="result-category">${n.category}</span>
+    </div>
+  `).join('');
+}
+
+document.getElementById('search-box').addEventListener('input', (e) => {
+  const q = e.target.value.toLowerCase();
+  renderResults(nodes.filter(n => n.title.toLowerCase().includes(q) || n.category.includes(q)));
+});
+
+// Graph View — simple force-ish static layout on canvas, no external library
+Promise.all([
+  fetch('mock-graph.json').then(r => r.json()),
+  fetch('mock-graph-edges.json').then(r => r.json())
+]).then(([graphNodes, edges]) => {
+  const canvas = document.getElementById('graph-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+
+  // Simple circular layout with slight jitter — deterministic, no physics engine needed
+  const positions = graphNodes.map((n, i) => {
+    const angle = (i / graphNodes.length) * Math.PI * 2;
+    const radius = 160 + (i % 3) * 30;
+    return {
+      x: W / 2 + Math.cos(angle) * radius,
+      y: H / 2 + Math.sin(angle) * radius
+    };
+  });
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    // edges
+    ctx.strokeStyle = 'rgba(156,122,74,0.25)';
+    ctx.lineWidth = 1;
+    edges.forEach(e => {
+      const a = positions[e.source], b = positions[e.target];
+      if (!a || !b) return;
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+    });
+    // nodes
+    graphNodes.forEach((n, i) => {
+      const p = positions[i];
+      const degree = edges.filter(e => e.source === i || e.target === i).length;
+      const r = 4 + degree * 1.5;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+      ctx.fillStyle = catColors[n.category] || '#F5F0EB';
+      ctx.fill();
+      ctx.fillStyle = '#F5F0EB';
+      ctx.font = '10px Georgia';
+      ctx.fillText(n.title, p.x + r + 4, p.y + 3);
+    });
+  }
+  draw();
+});
+</script>
+</body>
+</html>

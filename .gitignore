@@ -1,1 +1,5 @@
 .wrangler/
+# Real vault export data — MUST NEVER be committed or deployed publicly.
+# Private dashboard data stays local until Cloudflare Access gates it.
+# See wiki/projects/jeandalferes-site-blocker-ledger.md Blocker 2.
+dashboard-data/
