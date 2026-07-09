@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Not Found — Jean Dalferes Robicheaux</title>
+<link rel="icon" href="/favicon.png" type="image/png">
+<meta name="description" content="Page not found.">
+<style>
+  :root {
+    --ground: #14110F;
+    --parchment: #F5F0EB;
+    --accent: #9C7A4A;
+    --body-text: #C9C2B8;
+    --footer-text: #55504A;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: var(--ground); color: var(--parchment); font-family: 'Georgia', 'Iowan Old Style', 'Palatino Linotype', serif; }
+  body { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; text-align: center; padding: 6vh 8vw; }
+  .code { font-size: clamp(3rem, 10vw, 5rem); color: var(--accent); font-weight: 400; margin-bottom: 0.5rem; }
+  .message { font-size: 1.1rem; color: var(--body-text); margin-bottom: 2rem; }
+  nav a { color: var(--parchment); text-decoration: none; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid var(--accent); padding-bottom: 0.25rem; }
+  nav a:hover { color: var(--accent); }
+  footer { position: absolute; bottom: 2.5vh; font-size: 0.7rem; letter-spacing: 0.05em; color: var(--footer-text); }
+</style>
+</head>
+<body>
+  <div class="code">404</div>
+  <div class="message">This page doesn't exist. Might've moved, might've never been here.</div>
+  <nav><a href="/">&larr; Back to Home</a></nav>
+  <footer>&copy; 2026 Jean Dalferes Robicheaux</footer>
+</body>
+</html>

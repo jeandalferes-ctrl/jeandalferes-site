@@ -25,11 +25,19 @@
   .body p { font-size: clamp(0.9rem, 1.6vw, 1.02rem); line-height: 1.75; color: var(--body-text); margin-bottom: 1.2rem; }
   .cta { display: inline-block; margin-top: 1.5rem; color: var(--parchment); text-decoration: none; font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase; border: 1px solid var(--accent); padding: 0.8rem 1.6rem; transition: background .25s ease, color .25s ease; }
   .cta:hover { background: var(--accent); color: var(--ground); }
+  .interest-form { margin-top: 2rem; max-width: 24rem; }
+  .form-label { font-size: 0.85rem; color: var(--body-text); margin-bottom: 0.6rem; }
+  .form-row { display: flex; gap: 0.5rem; }
+  .interest-form input[type="email"] { flex: 1; background: var(--ground); border: 1px solid var(--accent); color: var(--parchment); padding: 0.6rem 0.8rem; font-family: inherit; font-size: 0.85rem; border-radius: 2px; }
+  .interest-form input[type="email"]::placeholder { color: var(--footer-text); }
+  .interest-form button { background: transparent; border: 1px solid var(--accent); color: var(--parchment); padding: 0.6rem 1rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; border-radius: 2px; transition: background .25s ease, color .25s ease; }
+  .interest-form button:hover { background: var(--accent); color: var(--ground); }
+  .form-status { font-size: 0.8rem; color: var(--accent); margin-top: 0.6rem; min-height: 1.2rem; }
   footer { position: absolute; bottom: 2.5vh; font-size: 0.7rem; letter-spacing: 0.05em; color: var(--footer-text); }
 </style>
 </head>
 <body>
-  <nav><a href="/">&larr; Home</a></nav>
+  <nav><a href="/">&larr; Home</a> &middot; <a href="/course/">Course</a> &middot; <a href="/about/">About</a></nav>
   <main>
     <div class="headline">The Sovereign Stack</div>
     <div class="subhead">Templates, configuration, and an operating charter. Install, configure, run.</div>
@@ -43,7 +51,22 @@
     </div>
     <a class="cta" href="#">Join the interest list</a>
     <p style="margin-top:1.2rem;"><a href="/demo-dashboard/" style="color:var(--accent); font-size:0.85rem; text-decoration:underline;">See a live example &rarr;</a></p>
+    <form id="interest-form" class="interest-form" data-form-name="kit-interest">
+      <p class="form-label">Or leave your email &mdash; I'll let you know when the Kit ships.</p>
+      <div class="form-row">
+        <input type="email" name="email" placeholder="you@example.com" required>
+        <button type="submit">Notify me</button>
+      </div>
+      <p class="form-status" id="form-status"></p>
+    </form>
   </main>
   <footer>&copy; 2026 Jean Dalferes Robicheaux</footer>
+<script>
+document.getElementById('interest-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  // STUBBED ENDPOINT — see wiki/projects/jeandalferes-site-blocker-ledger.md
+  document.getElementById('form-status').textContent = 'Form UI ready — submission handler not yet wired. (See you soon.)';
+});
+</script>
 </body>
 </html>

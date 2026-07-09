@@ -23,11 +23,19 @@
   .headline { font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 400; letter-spacing: 0.02em; margin-bottom: 1rem; }
   .subhead { font-size: clamp(1rem, 2.2vw, 1.2rem); font-style: italic; color: var(--accent); margin-bottom: 2rem; line-height: 1.5; }
   .body p { font-size: clamp(0.9rem, 1.6vw, 1.02rem); line-height: 1.75; color: var(--body-text); margin-bottom: 1.2rem; }
+  .interest-form { margin-top: 2rem; max-width: 24rem; }
+  .form-label { font-size: 0.85rem; color: var(--body-text); margin-bottom: 0.6rem; }
+  .form-row { display: flex; gap: 0.5rem; }
+  .interest-form input[type="email"] { flex: 1; background: var(--ground); border: 1px solid var(--accent); color: var(--parchment); padding: 0.6rem 0.8rem; font-family: inherit; font-size: 0.85rem; border-radius: 2px; }
+  .interest-form input[type="email"]::placeholder { color: var(--footer-text); }
+  .interest-form button { background: transparent; border: 1px solid var(--accent); color: var(--parchment); padding: 0.6rem 1rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; border-radius: 2px; transition: background .25s ease, color .25s ease; }
+  .interest-form button:hover { background: var(--accent); color: var(--ground); }
+  .form-status { font-size: 0.8rem; color: var(--accent); margin-top: 0.6rem; min-height: 1.2rem; }
   footer { position: absolute; bottom: 2.5vh; font-size: 0.7rem; letter-spacing: 0.05em; color: var(--footer-text); }
 </style>
 </head>
 <body>
-  <nav><a href="/">&larr; Home</a></nav>
+  <nav><a href="/">&larr; Home</a> &middot; <a href="/course/">Course</a> &middot; <a href="/kit/">Kit</a></nav>
   <main>
     <div class="headline">Jean Dalferes Robicheaux</div>
     <div class="subhead">Systems architect. Patent attorney. Former Air Force. I build things that run on their own.</div>
@@ -39,7 +47,22 @@
       <p>I&rsquo;ve been in rooms where the consequences of a design flaw were measured in people and launch windows. That shapes how I think about infrastructure. It should be boring when it&rsquo;s working. Interesting things should be happening in the work it enables, not in whether it&rsquo;s running.</p>
       <p>That&rsquo;s the standard I hold this to.</p>
     </div>
+    <form id="interest-form" class="interest-form" data-form-name="contact">
+      <p class="form-label">Want to reach me directly? Leave your email and what this is about.</p>
+      <div class="form-row">
+        <input type="email" name="email" placeholder="you@example.com" required>
+        <button type="submit">Send</button>
+      </div>
+      <p class="form-status" id="form-status"></p>
+    </form>
   </main>
   <footer>&copy; 2026 Jean Dalferes Robicheaux</footer>
+<script>
+document.getElementById('interest-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  // STUBBED ENDPOINT — see wiki/projects/jeandalferes-site-blocker-ledger.md
+  document.getElementById('form-status').textContent = 'Form UI ready — submission handler not yet wired. (See you soon.)';
+});
+</script>
 </body>
 </html>
